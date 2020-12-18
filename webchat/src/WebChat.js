@@ -1,4 +1,5 @@
 import React from 'react';
+import { KeyboardEvent } from "react";
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import { Container, Grid, Typography, TextField, Button } from '@material-ui/core';
 import { config } from './config';
@@ -51,21 +52,23 @@ class WebChat extends React.Component {
   }
 
   sendMessage(text) {
-    this.setState(state => {
-      let messages = "";
-      if (!state.messages) {
-        messages = `Você: ${text}`;
-      } else {
-        messages = state.messages + `\nVocê: ${text}`;
-      }
-      return {message: "", messages: messages};
-    });
-    client.send(JSON.stringify({
-      action: 'message', 
-      sender: this.props.userName,
-      receivers: this.usersList,
-      message: text
-    }));
+    if (text) {
+      this.setState(state => {
+        let messages = "";
+        if (!state.messages) {
+          messages = `Você: ${text}`;
+        } else {
+          messages = state.messages + `\nVocê: ${text}`;
+        }
+        return {message: "", messages: messages};
+      });
+      client.send(JSON.stringify({
+        action: 'message', 
+        sender: this.props.userName,
+        receivers: this.usersList,
+        message: text
+      }));
+    }
   }
 
   onNewUser(data) {
@@ -92,6 +95,12 @@ class WebChat extends React.Component {
     this.setState(state => ({message: event.target.value, messages: state.messages}));
   }
 
+  handleKeyPress = (event) => {
+    if(event.key === 'Enter') {
+      this.sendMessage(this.state.message)
+    }
+  }
+
   render() {
     return (
       <Container maxWidth="lg">
@@ -105,7 +114,8 @@ class WebChat extends React.Component {
             <TextField autoFocus={false} multiline variant="outlined" fullWidth value={this.state.messages} rows={20} rowsMax={20} id="messages"></TextField>
           </Grid>
           <Grid item xs={10}>
-            <TextField fullWidth autoFocus={true} value={this.state.message} onChange={event => this.onWriteMessage(event)} id="text" placeholder="Digite sua mensagem aqui..." variant="outlined"></TextField>
+            <TextField fullWidth autoFocus={true} value={this.state.message} onChange={event => this.onWriteMessage(event)} id="text" 
+                onKeyPress={this.handleKeyPress} placeholder="Digite sua mensagem aqui..." variant="outlined"></TextField>
           </Grid>
           <Grid item xs={2}>
             <Button fullWidth size="large" disableElevation onClick={() => this.sendMessage(this.state.message)} variant="contained" color="primary">Enviar</Button>

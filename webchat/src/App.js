@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.png';
-import senior from './senior.png'
+import omni from './omnichat-preta-vertical.png'
 import github from './github.png';
 import './App.css';
 import { TextField, Button, Container, Grid } from '@material-ui/core';
@@ -49,8 +49,7 @@ class App extends React.Component {
               <Button size="large" onClick={() => this.login()} color="primary" variant="outlined">Entrar</Button>
             </Grid>
             <Grid item xs={12}>
-              <a href="https://github.com/SeniorSA/serverless-websocket"><img className="icons" src={github}/></a>
-              <a href="https://senior.com.br"><img className="icons" src={senior}/></a>
+              <a href="https://omni.chat"><img className="icons" src={omni}/></a>
             </Grid>
           </Grid>
         </Container>
