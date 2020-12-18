@@ -1,3 +1,3 @@
 export const config = {
-  websocketAddress: 'wss://{WEBSOCKET}.execute-api.{REGIAO}.amazonaws.com/Prod',
+  websocketAddress: 'wss://9u55293sq5.execute-api.us-east-1.amazonaws.com/Prod',
 }
